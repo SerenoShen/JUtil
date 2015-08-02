@@ -37,9 +37,7 @@
     var
         version = '0.0.1',
 
-        JUtil = function () {
-            return JUtil.fn;
-        };
+        JUtil = {};
 
     /******************** start : define JUtil prototype object *******************/
     JUtil.fn = JUtil.prototype = {
@@ -281,7 +279,7 @@
     function createCache(cacheLength) {
         var keys = [];
 
-        function cache( key, value ) {
+        function cache(key, value) {
             if ( keys.push( key + " " ) > cacheLength ) {
                 delete cache[ keys.shift() ];
             }
@@ -289,6 +287,22 @@
         }
         return cache;
     }
+
+    // define function createConstant
+    // 常量生成器，根据传入的初始值来初始化常量,
+    function createConstant(initValue) {
+
+        function constant(initValue) {
+
+            if (initValue === 'number')
+                return initValue;
+
+            return 0;
+        }
+        return constant;
+    }
+
+
 
     // support RequireJS
     if (typeof define === "function" && define.amd) {

@@ -4,3 +4,5 @@
 This project is intended to provide a common JavaScript tool library,
 this library contains a number of commonly used methods,
 such as: array merging, sorting, constant generator...
+
+IDE : WebStorm 9.0.2

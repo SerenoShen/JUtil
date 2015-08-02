@@ -127,12 +127,6 @@
 
         trimRegExp: new RegExp( "^" + "[\\x20\\t\\r\\n\\f]" + "+|((?:^|[^\\\\])(?:\\\\.)*)" + "[\\x20\\t\\r\\n\\f]" + "+$", "g" ),
 
-        // Unique for each copy of JUtil on the page
-        expando: "JUtil" + ( version + Math.random() ).replace(/\D/g, ""),
-
-        // Assume JUtil is ready without the ready module
-        isReady: true,
-
         error: function (msg) {
             throw new Error(msg);
         },
@@ -150,10 +144,12 @@
         },
 
         isEmptyObject: function (obj) {
-            var name;
-            for (name in obj) {
+
+            var prop;
+
+            for ( prop in obj)
                 return false;
-            }
+
             return true;
         },
 
@@ -195,7 +191,6 @@
             }
         },
 
-        // Support: Android<4.1, IE<9
         trim: function (text) {
             return text == null ? "" : ( text + "" ).replace(this.trimRegExp, "");
         },
@@ -261,7 +256,6 @@
         }
     });
 
-    // define private method isArrayLike
     function isArrayLike(obj) {
         var length = obj.length,
             type = JUtil.type(obj);

@@ -38,7 +38,7 @@
         version = '0.0.1',
 
         JUtil = function () {
-            return new JUtil.fn.init();
+            return JUtil.fn;
         };
 
     /******************** start : define JUtil prototype object *******************/
@@ -127,7 +127,7 @@
 
         whitespace: "[\\x20\\t\\r\\n\\f]",
 
-        rtrim: new RegExp( "^" + whitespace + "+|((?:^|[^\\\\])(?:\\\\.)*)" + whitespace + "+$", "g" ),
+        trimRegExp: new RegExp( "^" + "[\\x20\\t\\r\\n\\f]" + "+|((?:^|[^\\\\])(?:\\\\.)*)" + "[\\x20\\t\\r\\n\\f]" + "+$", "g" ),
 
         // Unique for each copy of JUtil on the page
         expando: "JUtil" + ( version + Math.random() ).replace(/\D/g, ""),
@@ -162,33 +162,18 @@
         isPlainObject: function (obj) {
             var key;
 
-            // Must be an Object.
-            // Because of IE, we also have to check the presence of the constructor property.
-            // Make sure that DOM nodes and window objects don't pass through, as well
             if (!obj || JUtil.type(obj) !== "object" || obj.nodeType || JUtil.isWindow(obj)) {
                 return false;
             }
 
             try {
-                // Not own constructor property must be Object
                 if (obj.constructor && !hasOwn.call(obj, "constructor") && !hasOwn.call(obj.constructor.prototype, "isPrototypeOf")) {
                     return false;
                 }
             } catch (e) {
-                // IE8,9 Will throw exceptions on certain host objects #9897
                 return false;
             }
 
-            // Support: IE<9
-            // Handle iteration over inherited properties before own properties.
-            if (support.ownLast) {
-                for (key in obj) {
-                    return hasOwn.call(obj, key);
-                }
-            }
-
-            // Own properties are enumerated firstly, so to speed up,
-            // if last one is own, then all properties are own.
             for (key in obj) {
             }
 
@@ -214,21 +199,15 @@
 
         // Support: Android<4.1, IE<9
         trim: function (text) {
-            return text == null ?
-                "" :
-                ( text + "" ).replace(rtrim, "");
+            return text == null ? "" : ( text + "" ).replace(this.trimRegExp, "");
         },
 
-        // results is for internal usage only
         makeArray: function (arr, results) {
             var ret = results || [];
 
             if (arr != null) {
                 if (isArrayLike(Object(arr))) {
-                    JUtil.merge(ret,
-                        typeof arr === "string" ?
-                            [arr] : arr
-                    );
+                    JUtil.merge(ret, typeof arr === "string" ?  [arr] : arr);
                 } else {
                     push.call(ret, arr);
                 }
@@ -241,15 +220,14 @@
             var len;
 
             if (arr) {
-                if (indexOf) {
+                if (indexOf)
                     return indexOf.call(arr, elem, i);
-                }
 
                 len = arr.length;
+
                 i = i ? i < 0 ? Math.max(0, len + i) : i : 0;
 
                 for (; i < len; i++) {
-                    // Skip accessing in sparse arrays
                     if (i in arr && arr[i] === elem) {
                         return i;
                     }
@@ -279,9 +257,6 @@
 
             return first;
         },
-
-        // A global GUID counter for objects
-        guid: 1,
 
         now: function () {
             return +(new Date());

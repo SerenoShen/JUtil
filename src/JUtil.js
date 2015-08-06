@@ -175,11 +175,14 @@
         },
 
         type: function (obj) {
+            var typeInfo;
+
             if (obj == null)
                 return obj + "";
 
-            return typeof obj === "object" || typeof obj === "function" ?
-            classType[toString.call(obj)] || "object" : typeof obj;
+            typeInfo = Object.prototype.toString.call(obj);
+
+            return typeInfo.substring( 8, typeInfo.length - 1 );
         },
 
 
@@ -193,20 +196,6 @@
 
         trim: function (text) {
             return text == null ? "" : ( text + "" ).replace(this.trimRegExp, "");
-        },
-
-        makeArray: function (arr, results) {
-            var ret = results || [];
-
-            if (arr != null) {
-                if (isArrayLike(Object(arr))) {
-                    JUtil.merge(ret, typeof arr === "string" ?  [arr] : arr);
-                } else {
-                    push.call(ret, arr);
-                }
-            }
-
-            return ret;
         },
 
         inArray: function (elem, arr, i) {
@@ -295,8 +284,6 @@
         }
         return constant;
     }
-
-
 
     // support RequireJS
     if (typeof define === "function" && define.amd) {

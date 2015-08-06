@@ -1,4 +1,4 @@
-var JMap = (function Map(){
+var JMap = (function (){
 	
 	var 
 		size = 0, 

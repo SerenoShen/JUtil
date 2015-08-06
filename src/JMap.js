@@ -23,27 +23,37 @@ var JMap = (function (){
 		
 		map[ key + " " ] = value;
 	};
-	
+
 	MapCache.prototype.remove = function (key) {
-		
+
 		var value;
-		
-		if ( (typeof map[ key + " " ]) != strundefined ) {
+
+		if ( key !== null || key !== strundefined ) {
 			value = map[ key + " " ];
 			delete map[ key + " " ];
 			size--;
 			return value;
 		}
-		
+
 		return value;
 	};
-	
+
 	MapCache.prototype.get = function (key) {
 		if (map[key + " "] != strundefined) {
 			return map[ key + " " ];
 		}
 		
 		return null;
+	};
+
+	MapCache.prototype.keys = function () {
+		var keys = [], prop;
+
+		for ( prop in map ){
+			keys.push(prop);
+		}
+
+		return keys;
 	};
 	
 	MapCache.prototype.clear = function () {

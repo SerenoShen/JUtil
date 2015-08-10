@@ -59,8 +59,6 @@ var JMap = (function (){
 		};
 	}
 
-
-
 	// 遵循 AMD 模块化规范， 支持RequireJS 模块化导出
 	if ( typeof define === 'function' && define.amd ) {
 		define('jmap', [], function (){

@@ -2,67 +2,64 @@ var JMap = (function (){
 
 	function MapCache() {
 
-		this.len = 0;
-		this.cache = {};
+		var len = 0, cache = {};
 
-	}
-
-	MapCache.prototype = {
-
-		put : function (key, value){
+		this.put = function (key, value){
 
 			if ( key === null && key === undefined ){
 				throw new Error( " null or undefined is not a illegality variable ! " );
 			}
 
-			if (this.cache[ key + " " ] == undefined) {
-				this.cache[ key + " "] = value;
-				this.len++;
+			if (cache[ key + " " ] == undefined) {
+				cache[ key + " "] = value;
+				len++;
 				return;
 			}
 
-			this.cache[ key + " " ] = value;
-		},
+			cache[ key + " " ] = value;
+		};
 
-		get : function (key) {
+		this.get = function (key) {
 
-			return this.cache[ key + " " ];
+			return cache[ key + " " ];
 
-		},
+		};
 
-		remove : function (key) {
+		this.remove = function (key) {
 
 			var value;
 
 			if ( key !== null || key !== undefined ) {
-				value = this.cache[ key + " " ];
-				delete this.cache[ key + " " ];
-				this.len--;
+				value = cache[ key + " " ];
+				delete cache[ key + " " ];
+				len--;
 				return value;
 			}
 
 			return value;
-		},
+		};
 
-		clear : function () {
-			this.cache = {};
-			this.len = 0;
-		},
+		this.clear =  function () {
+			cache = {};
+			len = 0;
+		};
 
-		keys : function () {
+		this.keys = function () {
 			var keys = [], prop;
 
-			for ( prop in this.cache ){
+			for ( prop in cache ){
 				keys.push( prop.substring(0, prop.length - 1) );
 			}
 
 			return keys;
-		},
+		};
 
-		size : function () {
-			return this.len;
-		}
-	};
+		this.size = function () {
+			return len;
+		};
+	}
+
+
 
 	// 遵循 AMD 模块化规范， 支持RequireJS 模块化导出
 	if ( typeof define === 'function' && define.amd ) {

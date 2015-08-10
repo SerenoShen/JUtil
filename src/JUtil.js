@@ -185,6 +185,34 @@
             return typeInfo.substring( 8, typeInfo.length - 1 );
         },
 
+        clone : function (obj){
+            var  cobj, prop, i, len;
+
+            if ( null === obj )
+                return null;
+
+            if ( typeof obj == 'object' ){
+                len = obj.length;  // 性能需求
+                if ( obj instanceof Array ){
+                    cobj = [];
+                    i = 0;
+                    for (; i < len; ++i) {
+                        cobj.push(arguments.callee(obj[i]));
+                    }
+                }else {
+                    cobj = {};
+                    i = 0;
+                    for (prop in obj) {
+                        cobj[prop] = arguments.callee(obj[prop]);
+                    }
+                }
+            }else{
+                cobj = obj;
+            }
+
+            return cobj;
+        },
+
 
         globalEval: function (data) {
             if (data && JUtil.trim(data)) {

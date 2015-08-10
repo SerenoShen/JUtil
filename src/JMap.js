@@ -2,8 +2,8 @@ var JMap = (function (){
 
 	function MapCache() {
 
-		this.size = 0;
-		this.mapCache = {};
+		this.len = 0;
+		this.cache = {};
 
 	}
 
@@ -15,21 +15,19 @@ var JMap = (function (){
 				throw new Error( " null or undefined is not a illegality variable ! " );
 			}
 
-			if (this.mapCache[ key + " " ] == undefined) {
-				this.mapCache[ key + " "] = value;
-				this.size++;
+			if (this.cache[ key + " " ] == undefined) {
+				this.cache[ key + " "] = value;
+				this.len++;
 				return;
 			}
 
-			this.mapCache[ key + " " ] = value;
+			this.cache[ key + " " ] = value;
 		},
 
 		get : function (key) {
-			if (this.mapCache[key + " "] != undefined) {
-				return this.mapCache[ key + " " ];
-			}
 
-			return null;
+			return this.cache[ key + " " ];
+
 		},
 
 		remove : function (key) {
@@ -37,9 +35,9 @@ var JMap = (function (){
 			var value;
 
 			if ( key !== null || key !== undefined ) {
-				value = this.mapCache[ key + " " ];
-				delete this.mapCache[ key + " " ];
-				this.size--;
+				value = this.cache[ key + " " ];
+				delete this.cache[ key + " " ];
+				this.len--;
 				return value;
 			}
 
@@ -47,14 +45,14 @@ var JMap = (function (){
 		},
 
 		clear : function () {
-			this.mapCache = {};
-			this.size = 0;
+			this.cache = {};
+			this.len = 0;
 		},
 
 		keys : function () {
 			var keys = [], prop;
 
-			for ( prop in this.mapCache ){
+			for ( prop in this.cache ){
 				keys.push( prop.substring(0, prop.length - 1) );
 			}
 
@@ -62,7 +60,7 @@ var JMap = (function (){
 		},
 
 		size : function () {
-			return this.size;
+			return this.len;
 		}
 	};
 
